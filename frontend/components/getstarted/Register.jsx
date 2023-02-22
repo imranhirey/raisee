@@ -7,8 +7,6 @@ import {getNames}  from 'country-list'
 
 const Register = () => {
   const toast = useToast()
-     
-
   let [cureentStep, setCurrentStep] = React.useState(0);
   let [userinfo, setUserInfo] = React.useState({});
   let [countrylist, setCountryList] = React.useState([
