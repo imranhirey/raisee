@@ -1,13 +1,12 @@
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Button, Divider, Input, Select } from "@chakra-ui/react";
-import { getCountries } from "libphonenumber-js";
-import React, { useEffect } from "react";
+import { Button, Input, useToast } from "@chakra-ui/react";
+import React from "react";
 import checkregister from "../../checkers/register.cjs";
 import fundriserquestions from "./questions.js";
-import {getNameList, getNames}  from 'country-list'
-import levenshteinDistance from "../../algos/twostringdistances.js";
+import {getNames}  from 'country-list'
 
 const Register = () => {
+  const toast = useToast()
      
 
   let [cureentStep, setCurrentStep] = React.useState(0);
@@ -30,26 +29,19 @@ const Register = () => {
   let handlenext = () => {
     // if ithe step is the country step
     if (cureentStep === 2) {
-      let country=userinfo["country"]
-      const countryindex = countrylist.indexOf(country);
-
-      if (countryindex !== -1) {
-        console.log(`Found: ${countrylist[countryindex]}`);
-      } else {
-        // If the user's input is not in the list, find the closest match
-        let closestMatch = '';
-        let closestDistance = Infinity;
-      
-        for (const name of countrylist) {
-          const distance = levenshteinDistance(userInput, name);
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestMatch = name;
-          }
-        }
-      
-        console.log(`Not found. Closest match: ${closestMatch}`);
-      }
+     let isvalid=checkregister.iscountryvalid(userinfo,countrylist);
+    if (isvalid.status=="found"){
+      alert("country found")
+    }
+    else{
+      toast({
+        title: 'oops! country not found but we have found a similar country name '+isvalid.country,
+        description: "We've created your account for you.",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
 
     }
     if (cureentStep===questions.length-1) {
@@ -114,7 +106,7 @@ const Register = () => {
               leftIcon={<ArrowBackIcon />}
               variant="link"
               width={200}
-              widn
+              
               colorScheme="gray"
             >
               Back
