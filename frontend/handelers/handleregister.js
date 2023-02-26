@@ -20,6 +20,9 @@ class Registerhandler {
     setmodalprops
   ) {
     switch (cureentStep) {
+      // check if it is the last step
+      case questions.length - 1:
+        alert("done");
       case this.steps.country:
         let isvalid = checkregister.iscountryvalid(userinfo, countrylist);
         if (isvalid.status == "found") {
@@ -48,6 +51,10 @@ class Registerhandler {
       case this.steps.phone:
         let phone = userinfo["phone"];
         let country = userinfo["country"];
+        // if phone is not start with + then add it
+        if (phone[0] !== "+") {
+          phone = "+" + phone;
+        }
         let isvalidphone = checkregister.isphonevalid(phone, country);
         if (isvalidphone.status == "valid") {
           setCurrentStep(cureentStep + 1);
@@ -95,6 +102,56 @@ class Registerhandler {
             isClosable: true, // this
           });
         }
+        break;
+      case this.steps.email:
+        let isvalidemail = checkregister.isemailvalid(userinfo["email"]);
+        if (isvalidemail) {
+          setCurrentStep(cureentStep + 1);
+          document.querySelector("input").value = "";
+        } else {
+          toast({
+            title: "valid email required",
+            description: "Please enter a valid email",
+            status: "error",
+            duration: 5000,
+            isClosable: true, // this
+          });
+        }
+        break;
+      case this.steps.password1:
+        let password1 = userinfo["password1"];
+        let ispasswordvalid = checkregister.ispasswordvalid(password1);
+        if (ispasswordvalid) {
+          setCurrentStep(cureentStep + 1);
+          document.querySelector("input").value = "";
+        } else {
+          toast({
+            title: "valid password required",
+            description:
+              "your password must be at least 6 characters and contain at least one number and one letter",
+            status: "error",
+            duration: 5000,
+            isClosable: true, // this
+          });
+        }
+
+        break;
+      case this.steps.password2:
+        let password2 = userinfo["password2"];
+        if (password2 == userinfo["password1"]) {
+          setCurrentStep(cureentStep + 1);
+          document.querySelector("input").value = "";
+        } else {
+          toast({
+            title: "your password must be the same as the previous one",
+            description: "your password must be the same as the previous one",
+            status: "error",
+            duration: 5000,
+            isClosable: true, // this
+          });
+        }
+        break;
+
       default:
         setCurrentStep(cureentStep + 1);
         document.querySelector("input").value = "";

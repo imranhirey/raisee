@@ -12,7 +12,6 @@ let fundriserquestions = [
         placeholder: "Enter your email",
         required: true,
         name: "email"
-
     },
     {
         //ask his country
@@ -21,8 +20,6 @@ let fundriserquestions = [
         placeholder: "Enter your country",
         required: true,
         name: "country"
-        
-
     },
     {
         question: "What is your phone number?",

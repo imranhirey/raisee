@@ -71,6 +71,12 @@ const Register = () => {
         type={questions[cureentStep].type}
         variant="flushed"
         onChange={handlechange}
+        onKeyUp={(e)=>{
+          if(e.key === "Enter"){
+            handlenext()
+          }
+
+        }}
         style={{
           width: "100%",
           height: "100px",
