@@ -3,21 +3,30 @@ import { Button, Input, useToast } from "@chakra-ui/react";
 import React from "react";
 import checkregister from "../../checkers/register.cjs";
 import fundriserquestions from "./questions.js";
-import {getNames}  from 'country-list'
+import { getNames } from "country-list";
+import registerhandler from "../../handelers/handleregister.js";
+import ConfirmModel from "../models/ConfirmModel.jsx";
 
 const Register = () => {
-  const toast = useToast()
+  const toast = useToast();
   let [cureentStep, setCurrentStep] = React.useState(0);
   let [userinfo, setUserInfo] = React.useState({});
-  let [countrylist, setCountryList] = React.useState([
-    ...getNames()
-  
-  ]);
+  let [countrylist, setCountryList] = React.useState([...getNames()]);
+  let [modelprops, setModelProps] = React.useState({
+    isOpen: false,
+    onClose: () => {
+      setModelProps({ isOpen: false });
+    },
+    title: "",
+    body: "",
+    onConfirm: () => {},
+    confirmText: "",
+    cancelText: "",
+  });
 
   let handlechange = (e) => {
-    setUserInfo({ ...userinfo, [e.target.name]: e.target.value });
-    console.log(userinfo);
-  }
+    registerhandler.handlechange(e, userinfo, setUserInfo);
+  };
   let questions = fundriserquestions;
   let handleback = () => {
     if (cureentStep > 0) {
@@ -25,36 +34,18 @@ const Register = () => {
     }
   };
   let handlenext = () => {
+    registerhandler.handlenext(
+      cureentStep,
+      checkregister,
+      toast,
+      questions,
+      userinfo,
+      setUserInfo,
+      countrylist,
+      setCurrentStep,
+      setModelProps
+    );
     // if ithe step is the country step
-    if (cureentStep === 2) {
-     let isvalid=checkregister.iscountryvalid(userinfo,countrylist);
-    if (isvalid.status=="found"){
-      alert("country found")
-    }
-    else{
-      toast({
-        title: 'oops! country not found but we have found a similar country name '+isvalid.country,
-        description: "We've created your account for you.",
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    }
-
-    }
-    if (cureentStep===questions.length-1) {
-      let phonenumebr = userinfo["phone"];
-      let jawaab= checkregister.isphonevalid(phonenumebr);
-      console.log(jawaab);
-    }
-    if (cureentStep < questions.length - 1) {
-      
-      setCurrentStep(cureentStep + 1);
-      // clear the input field
-      document.querySelector("input").value = "";
-    } else {
-      console.log("done");
-    }
   };
   return (
     <div
@@ -65,6 +56,7 @@ const Register = () => {
         flexDirection: "column",
       }}
     >
+      <ConfirmModel {...modelprops} />
       <p
         style={{
           fontSize: "30px",
@@ -89,7 +81,7 @@ const Register = () => {
         placeholder={questions[cureentStep].question}
         size="md"
       />
-   
+
       <div
         style={{
           display: "flex",
@@ -104,7 +96,6 @@ const Register = () => {
               leftIcon={<ArrowBackIcon />}
               variant="link"
               width={200}
-              
               colorScheme="gray"
             >
               Back

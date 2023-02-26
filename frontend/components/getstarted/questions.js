@@ -26,7 +26,7 @@ let fundriserquestions = [
     },
     {
         question: "What is your phone number?",
-        type: "tel",
+        type: "number",
         placeholder: "Enter your phone number",
         required: true,
         name: "phone"

@@ -20,6 +20,7 @@ const register = () => {
          <Register/>
 
         <Righinfo/>
+       
        </div>
        </div>
     );

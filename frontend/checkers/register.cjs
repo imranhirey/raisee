@@ -1,5 +1,6 @@
 import {isValidNumber, parsePhoneNumber } from 'libphonenumber-js'
 import levenshteinDistance from '../algos/twostringdistances';
+import {countries,getCode} from 'country-list';
 
 class Checkregister{
 
@@ -19,14 +20,33 @@ class Checkregister{
         let addressregex = /^.{10,}$/;
         return addressregex.test(address);
     }
-    isphonevalid(phone){
-        const number = isValidNumber(phone);
-
-        if (number) {
-          console.log('Valid phone number:', number);
-        } else {
-          console.log('Invalid phone number');
-        }
+    isphonevalid(phone,country){
+      // get the country code
+     let isvalid=isValidNumber(phone)
+    if (isvalid){
+      let contrycode= getCode(country)
+      const number = parsePhoneNumber(phone, contrycode);
+     if (number.country !== contrycode) {
+      return {
+        status: 'missmatch',
+        phone:phone
+      }
+      
+     }
+     else{
+      return {
+        status: 'valid',
+        phone: phone,
+      }
+     }
+    
+    }
+    else{
+      return {
+        status: 'invalid',
+        phone: phone,
+      }
+    }
 
     }
     iscountryvalid(userinfo, countrylist){
