@@ -12,7 +12,7 @@ app.use(cors({
 connecttodb()
 // let connection = require("../db/connection/index");
 // let mongoose = require("mongoose");
-// mongoose.connect("mongodb+srv://raisee-admin:yaamaalik4321@raisee-db.5d2iw.mongodb.net/?retryWrites=true&w=majority");
+// mongoose.connect("dabasreurl");
 // let db = mongoose.connection;
 // db.on("error", console.error.bind(console, "connection error:"));
 // db.once("open", function () {
