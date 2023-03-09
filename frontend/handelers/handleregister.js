@@ -1,3 +1,5 @@
+const { default: appapi } = require("../services/api");
+
 class Registerhandler {
   steps = {
     name: 0,
@@ -12,6 +14,7 @@ class Registerhandler {
     cureentStep,
     checkregister,
     toast,
+  
     questions,
     userinfo,
     setUserInfo,
@@ -22,7 +25,11 @@ class Registerhandler {
     switch (cureentStep) {
       // check if it is the last step
       case questions.length - 1:
-        alert("done");
+             appapi.register(userinfo)
+             // if succesfull redirect to login page 
+       
+
+        break;
       case this.steps.country:
         let isvalid = checkregister.iscountryvalid(userinfo, countrylist);
         if (isvalid.status == "found") {
@@ -99,7 +106,7 @@ class Registerhandler {
             description: "Please enter a valid name",
             status: "error",
             duration: 5000,
-            isClosable: true, // this
+            isClosable: true,
           });
         }
         break;
@@ -167,7 +174,7 @@ let registerhandler = new Registerhandler();
 
 module.exports = registerhandler;
 
-/**
+  /**
  *  if (cureentStep == this.steps.email) {
       let isvalid = checkregister.isemailvalid(userinfo["email"]);
       alert(isvalid);

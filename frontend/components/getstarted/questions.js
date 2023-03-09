@@ -8,7 +8,7 @@ let fundriserquestions = [
     },
     {
         question: "What is your email?",
-        type: "email",
+        type: "email", // 
         placeholder: "Enter your email",
         required: true,
         name: "email"
@@ -47,10 +47,10 @@ let fundriserquestions = [
         required: true,
         name: "password2"
     }
-   
-   
-    
-]
+]  
+
+
+
 
 
 module.exports = fundriserquestions;

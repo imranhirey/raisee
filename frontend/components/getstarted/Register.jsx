@@ -54,6 +54,7 @@ const Register = () => {
         height: "80%",
         display: "flex",
         flexDirection: "column",
+        padding: "20px",
       }}
     >
       <ConfirmModel {...modelprops} />
